@@ -15,8 +15,9 @@ Type
   Private
     Items: String;
     nSize: LongInt;
+    //Function Comparar(B2: Binario): LongInt;  // Calcula el binario con mayor cantidad de bits.
   Public
-    Procedure SetSize(aSize: LongInt);
+    Procedure SetSize(aSize: LongInt);  
     Procedure SetValue(aValue: String);
     Function ToString(): String;
     Function BinToString(): String;
@@ -29,7 +30,12 @@ Type
   End;
 
 implementation
-
+//Function Binario.Comparar(B2: Binario): LongInt;
+//Begin
+//  if Length(Items) >= Length(B2.Items) then  Result := Length(Items)
+//  else Result := Length(B2.Items);
+//End;
+ 
 Procedure Binario.SetSize(aSize: LongInt);
 Begin
   if (aSize >= Min) and (aSize <= Max) then
@@ -147,23 +153,42 @@ Begin
   Restar.SetValue(S);
 End;
 
+
 Function Binario.Operador(B2: Binario; Nombre_Operador: OperadorLogico): Binario;
-Var I, K: Integer;
-    S: String;
+var
+  I: Integer;
+  K, S: String;
 Begin
-  Operador.SetSize(32);
-  S := '';
-  for I := nSize Downto 1 do Begin
+Operador.SetSize(32);
+S := '';
+for I := nSize downto Min do Begin
   case Nombre_Operador of
-   bAND : K := StrToInt(Items[I]) AND StrToInt(B2.Items[I]);
-   bOR : K := StrToInt(Items[I]) OR StrToInt(B2.Items[I]);
-   bXOR : K := StrToInt(Items[I]) XOR StrToInt(B2.Items[I]);
+    bAND: if (Items[I] = '1') AND (B2.Items[I] = '1') then K := '1' else K := '0';
+    bOR: if (Items[I] = '1') OR (B2.Items[I] = '1') then K := '1' else K := '0';
+    bXOR: if (Items[I]  <> B2.Items[I]) then K := '1' else K := '0';
   end;
-    S := K.ToString + S;
-  End;
-  Operador.SetValue(S);
+  S := K + S;
+End;
+Operador.SetValue(S);
 End;
 
+//Function Binario.Operador(B2: Binario; Nombre_Operador: OperadorLogico): Binario;
+//Var I, K: Integer;
+//    S: String;
+//Begin
+//  Operador.SetSize(32);
+//  S := '';
+//  for I := nSize Downto 1 do Begin
+//  case Nombre_Operador of
+//   bAND : K := StrToInt(Items[I]) AND StrToInt(B2.Items[I]);
+//   bOR : K := StrToInt(Items[I]) OR StrToInt(B2.Items[I]);
+//   bXOR : K := StrToInt(Items[I]) XOR StrToInt(B2.Items[I]);
+//  end;
+//    S := K.ToString + S;
+//  End;
+//  Operador.SetValue(S);
+//End;
+//
 
 
 
