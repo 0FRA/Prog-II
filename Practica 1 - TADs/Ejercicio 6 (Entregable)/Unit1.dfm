@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = '.'
-  ClientHeight = 340
+  ClientHeight = 477
   ClientWidth = 744
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,31 +15,31 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 16
-    Top = 46
+    Left = 24
+    Top = 86
     Width = 45
     Height = 13
     Caption = 'Patente: '
   end
   object Label2: TLabel
-    Left = 16
-    Top = 70
+    Left = 24
+    Top = 110
     Width = 38
     Height = 26
     Caption = 'Horario entrada'
     WordWrap = True
   end
   object Label3: TLabel
-    Left = 16
-    Top = 110
+    Left = 24
+    Top = 150
     Width = 38
     Height = 26
     Caption = 'Horario salida'
     WordWrap = True
   end
   object Label4: TLabel
-    Left = 162
-    Top = 115
+    Left = 170
+    Top = 155
     Width = 5
     Height = 16
     Caption = ':'
@@ -51,8 +51,8 @@ object Form1: TForm1
     ParentFont = False
   end
   object Label5: TLabel
-    Left = 162
-    Top = 70
+    Left = 170
+    Top = 110
     Width = 5
     Height = 16
     Caption = ':'
@@ -63,18 +63,58 @@ object Form1: TForm1
     Font.Style = []
     ParentFont = False
   end
+  object LabelTitulo: TLabel
+    Left = 240
+    Top = 6
+    Width = 267
+    Height = 39
+    Caption = 'Estacionamineto'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -32
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object LabelTituloIngreso: TLabel
+    Left = 41
+    Top = 51
+    Width = 193
+    Height = 25
+    Caption = 'Ingreso de veh'#237'culos'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 41
+    Top = 315
+    Width = 199
+    Height = 25
+    Caption = 'Recaudado por fecha'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
   object Memo1: TMemo
-    Left = 264
-    Top = 19
+    Left = 280
+    Top = 83
     Width = 417
-    Height = 313
+    Height = 374
     Lines.Strings = (
       'Memo1')
+    ScrollBars = ssBoth
     TabOrder = 0
   end
   object btnGenerarVeh: TButton
-    Left = 16
-    Top = 156
+    Left = 24
+    Top = 196
     Width = 105
     Height = 41
     Caption = 'Generar aleatoriamente'
@@ -83,15 +123,15 @@ object Form1: TForm1
     OnClick = btnGenerarVehClick
   end
   object EditPatente: TEdit
-    Left = 67
-    Top = 43
+    Left = 75
+    Top = 83
     Width = 171
     Height = 21
     TabOrder = 2
   end
   object btnIngresarVeh: TButton
-    Left = 136
-    Top = 156
+    Left = 144
+    Top = 196
     Width = 105
     Height = 41
     Caption = 'Ingresar vehiculo'
@@ -99,8 +139,8 @@ object Form1: TForm1
     OnClick = btnIngresarVehClick
   end
   object DatePickerEntrada: TDatePicker
-    Left = 67
-    Top = 70
+    Left = 75
+    Top = 110
     Width = 89
     Height = 21
     Date = 44321.000000000000000000
@@ -113,8 +153,8 @@ object Form1: TForm1
     TabOrder = 4
   end
   object TimePickerEntrada: TTimePicker
-    Left = 173
-    Top = 70
+    Left = 181
+    Top = 110
     Width = 65
     Height = 21
     Font.Charset = DEFAULT_CHARSET
@@ -127,8 +167,8 @@ object Form1: TForm1
     TimeFormat = 'hh:mm'
   end
   object DatePickerSalida: TDatePicker
-    Left = 67
-    Top = 115
+    Left = 75
+    Top = 155
     Width = 89
     Height = 21
     Date = 44321.000000000000000000
@@ -141,8 +181,8 @@ object Form1: TForm1
     TabOrder = 6
   end
   object TimePickerSalida: TTimePicker
-    Left = 173
-    Top = 115
+    Left = 181
+    Top = 155
     Width = 65
     Height = 21
     Font.Charset = DEFAULT_CHARSET
@@ -155,12 +195,35 @@ object Form1: TForm1
     TimeFormat = 'hh:mm'
   end
   object btnMostrarVehiculos: TButton
-    Left = 16
-    Top = 216
+    Left = 24
+    Top = 256
     Width = 225
     Height = 33
     Caption = 'Mostrar vehiculos guardados'
     TabOrder = 8
     OnClick = btnMostrarVehiculosClick
+  end
+  object DatePickerRecaudado: TDatePicker
+    Left = 49
+    Top = 358
+    Width = 174
+    Height = 27
+    Date = 44321.000000000000000000
+    DateFormat = 'd/M/yyyy'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    TabOrder = 9
+  end
+  object btnMostrarRecaudado: TButton
+    Left = 57
+    Top = 399
+    Width = 152
+    Height = 26
+    Caption = 'Mostrar recaudado'
+    TabOrder = 10
+    OnClick = btnMostrarRecaudadoClick
   end
 end

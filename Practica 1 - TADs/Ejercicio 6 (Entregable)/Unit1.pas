@@ -23,11 +23,17 @@ type
     Label4: TLabel;
     Label5: TLabel;
     btnMostrarVehiculos: TButton;
+    LabelTitulo: TLabel;
+    LabelTituloIngreso: TLabel;
+    Label6: TLabel;
+    DatePickerRecaudado: TDatePicker;
+    btnMostrarRecaudado: TButton;
     procedure btnCargarVehiculosClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGenerarVehClick(Sender: TObject);
     procedure btnIngresarVehClick(Sender: TObject);
     procedure btnMostrarVehiculosClick(Sender: TObject);
+    procedure btnMostrarRecaudadoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -77,6 +83,11 @@ begin
   Car.Hora_S  := DatePickerSalida.Date+TimePickerSalida.Time;
   Parking1.Ingresar(Car);
   Memo1.Lines.Add('Vehiculo con patente #'+Car.Patente+' ingresado.');
+end;
+
+procedure TForm1.btnMostrarRecaudadoClick(Sender: TObject);
+begin
+Memo1.Lines.Add(Parking1.RecaudadoEnFecha(DatePickerRecaudado.Date));
 end;
 
 procedure TForm1.btnMostrarVehiculosClick(Sender: TObject);
