@@ -7,7 +7,7 @@ Uses SysUtils, DateUtils;
 Const
   Min = 1;
   Max = 100000; // Capacidad máxima de vehiculos para los Parking.
-  Nombre_Archivo = 'Vehiculos';
+  Nombre_Archivo = 'Vehiculos.Dat';
 
 Type
   RegVehiculo = Record
@@ -39,6 +39,7 @@ Type
     // Function Sacar(Patente: String): String;
     Function MostarRegistro(): String;
     Function RecaudadoEnFecha(Fecha: TDate): String;
+    Function TotalDesdeHasta(Desde, Hasta: TDate): Double;
   End;
 
 implementation
@@ -60,9 +61,9 @@ Begin
   Begin
     CalcularTarifa(Vehiculo);
     Items[nPos] := Vehiculo;
-    //CalcularEstadia(Vehiculo);
+    // CalcularEstadia(Vehiculo);
+    GuardarVehiculos(Vehiculo, Nombre_Archivo);
   End;
-  GuardarVehiculos(Vehiculo, Nombre_Archivo);
 End;
 
 Procedure Estacionamiento.EstablecerTarifas(completa, media, porhora: Double);
@@ -77,17 +78,17 @@ Procedure Estacionamiento.GuardarVehiculos(RV: RegVehiculo;
 Var
   AV: ArchivoVehiculos;
 begin
-  // En que lugar del disco va a residir el archivo. Usamos el path relativo
   AssignFile(AV, Nombre_Archivo);
-  // Vamos a controlar que el archivo NO exista para crearlo
-  if Not (FileExists(Nombre_Archivo)) then
-  Begin
+
+  if Not FileExists(Nombre_Archivo) then Begin
     Rewrite(AV);
     CloseFile(AV);
   End;
 
   // Abrirlo con reset (Modo/Lectura Escritura) y queda en el BOF
   Reset(AV);
+  // Posiciona el puntero de registro en la ultima posición (Sino se pisan los registros)
+  Seek(AV, FileSize(AV));
   Write(AV, RV);
   CloseFile(AV);
 end;
@@ -116,7 +117,7 @@ Var
   Tarifa: Double;
 Begin
   Tarifa := 0;
-  //Vehiculo.Importe := 0;
+  // Vehiculo.Importe := 0;
   CalcularEstadia(Vehiculo);
   E := Vehiculo.Estadia;
   if E = 'Completa' then
@@ -133,7 +134,7 @@ End;
 
 Function Estacionamiento.MostarRegistro(): String;
 Var
-  S, Estadia: String;
+  S: String;
   i: Integer;
 begin
   S := '';
@@ -152,7 +153,6 @@ Function Estacionamiento.RecaudadoEnFecha(Fecha: TDate): String;
 Var
   RV: RegVehiculo;
   AV: ArchivoVehiculos;
-  i: Integer;
   SumaEstCompleta, SumaEstMedia, SumaPorHora: Double;
   EncontroFecha, Existe: Boolean;
 Begin
@@ -160,7 +160,8 @@ Begin
   AssignFile(AV, Nombre_Archivo);
   // Vamos a controlar que el archivo NO exista para crearlo
   Existe := FileExists(Nombre_Archivo);
-  if Not Existe then Begin
+  if Not Existe then
+  Begin
     Rewrite(AV);
     CloseFile(AV);
   End;
@@ -191,14 +192,42 @@ Begin
   end;
   CloseFile(AV);
   if EncontroFecha then
-    RecaudadoEnFecha := 'Completa: ' + SumaEstCompleta.ToString + ' Media: ' +
-      SumaEstMedia.ToString + ' Por hora: ' + SumaPorHora.ToString
+    RecaudadoEnFecha := 'Completa: $' + SumaEstCompleta.ToString + ' Media: $' +
+      SumaEstMedia.ToString + ' Por hora: $' + SumaPorHora.ToString
   else
     RecaudadoEnFecha := 'No se han registrado vehiculos en ésta fecha.';
 End;
 
-// Procedure Estacionamiento.Sacar(Vehiculo: RegVehiculo);
-// Begin
-//
-// End;
+Function Estacionamiento.TotalDesdeHasta(Desde, Hasta: TDate): Double;
+Var
+  RV: RegVehiculo;
+  AV: ArchivoVehiculos;
+  Total: Double;
+  EncontroFecha, RangoFechas: Boolean;
+Begin
+  AssignFile(AV, Nombre_Archivo);
+  if Not FileExists(Nombre_Archivo) then
+  Begin
+    Rewrite(AV);
+    CloseFile(AV);
+  End;
+  Reset(AV);
+
+  // Inicializo acumulador
+  Total := 0;
+  // Recorrido secuencial del archivo
+  while Not EOF(AV) do
+  Begin
+    Read(AV, RV);
+    // lee el registro del archivo y lo pasa a la variable <RV>, y se para en el proximo registro
+    EncontroFecha := False;
+    RangoFechas := ((DateUtils.DateOf(RV.Hora_S) >= Desde) AND (DateUtils.DateOf(RV.Hora_S) <= Hasta));
+    if RangoFechas then Begin
+      EncontroFecha := True;
+      Total := Total + RV.Importe;
+    End;
+  end;
+  TotalDesdeHasta := Total;
+  CloseFile(AV);
+End;
 end.
