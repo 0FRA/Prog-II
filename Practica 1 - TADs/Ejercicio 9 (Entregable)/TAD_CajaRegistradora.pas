@@ -11,15 +11,19 @@ Const
 
 Type
   ArrayDisponibilidad = Array [1 .. 15] of Integer;
+
   CajaRegistradora = Object
   Private
     // Acumulador de cantidad de billetes/monedas
     Cantidades: ArrayDisponibilidad;
   Public
     Procedure Crear();
-    Procedure EstadoYSaldo(Var aTotal: Real; Var aDisponibilidad: ArrayDisponibilidad);
+    Procedure EstadoYSaldo(Var aTotal: Real;
+      Var aDisponibilidad: ArrayDisponibilidad);
     Function Cargar(Denominacion, Cantidad: LongInt): Boolean;
-    Function DarVuelto(aCobrar, PagaCon: Real): Real;
+    Procedure DarVuelto(aCobrar: Real; PagaCon: ArrayDisponibilidad; Var ArrayVuelto: ArrayDisponibilidad);
+
+
   End;
 
 implementation
@@ -33,15 +37,16 @@ Begin
     Cantidades[I] := 0;
 End;
 
-Procedure CajaRegistradora.EstadoYSaldo(Var aTotal: Real; Var aDisponibilidad: ArrayDisponibilidad);
+Procedure CajaRegistradora.EstadoYSaldo(Var aTotal: Real;
+  Var aDisponibilidad: ArrayDisponibilidad);
 Var
   I: Integer;
 Begin
   aTotal := 0;
   for I := 1 to Length(Cantidades) do
   Begin
-      aTotal := aTotal + Denominaciones[I] * Cantidades[I];
-      aDisponibilidad[I] := Cantidades[I];
+    aTotal := aTotal + Denominaciones[I] * Cantidades[I];
+    aDisponibilidad[I] := Cantidades[I];
   End;
 
 End;
@@ -60,9 +65,41 @@ Begin
     Cargar := False;
 End;
 
-Function DarVuelto(aCobrar, PagaCon: Real): Real;
+Procedure CajaRegistradora.DarVuelto(aCobrar: Real; PagaCon: ArrayDisponibilidad; Var ArrayVuelto: ArrayDisponibilidad);
+Var
+  Vuelto: Real;
+  I: Integer;
+  Total_Paga: Real;
+  //ArrayVuelto: ArrayDisponibilidad;
 Begin
+  Total_Paga := 0;
+  for I := 1 to Length(Cantidades) do
+  Begin
+    if PagaCon[I] > 0 then
+    Begin
+      Total_Paga := PagaCon[I] * Denominaciones[I];
+      // Aumento la cantidad en la caja
+      Cantidades[I] := Cantidades[I] + 1;
+    End;
+    ArrayVuelto[I] := 0;
+  End;
+  Vuelto := Total_Paga - aCobrar;
 
+  for I := Length(Cantidades) downto 1 do
+  Begin
+    if Vuelto > 0 then
+    Begin
+      if ((Vuelto - Denominaciones[I]) >= 0) AND (Cantidades[I] > 0) then
+      Begin
+        Vuelto := Vuelto - Denominaciones[I];
+        // Quito dinero de la caja
+        Cantidades[I] := Cantidades[I] - 1;
+        // Incremento la cantidad correspondiente para el vuelto
+        ArrayVuelto[I] := ArrayVuelto[I] + 1;
+      End;
+
+    End;
+  End;
 End;
 
 end.

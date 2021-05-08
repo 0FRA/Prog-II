@@ -24,10 +24,13 @@ type
     EditPagaCon: TEdit;
     EditCobrar: TEdit;
     Label6: TLabel;
+    ComboBoxPagaCon: TComboBox;
+    Label7: TLabel;
     procedure btnCargarCajaClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnMostrarTotalClick(Sender: TObject);
     procedure btnCalcularVueltoClick(Sender: TObject);
+    procedure ComboBoxPagaConChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,17 +40,31 @@ type
 var
   Form2: TForm2;
   CajaR: CajaRegistradora;
-
+  aPagaCon: ArrayDisponibilidad;
 implementation
 
 {$R *.dfm}
 
 procedure TForm2.btnCalcularVueltoClick(Sender: TObject);
-Var aCobrar, Paga: Real;
+Var
+  aCobrar, Paga: Real;
+  //Denominacion: Integer; // ID del Combobox
+  aVuelto: ArrayDisponibilidad;
+  I: Integer;
+  SinVuelto: Boolean;
 begin
+  //Denominacion := ComboBoxPagaCon.ItemIndex;
   aCobrar := StrToFloat(EditCobrar.Text);
   Paga := StrToFloat(EditPagaCon.Text);
-  CajaR.DarVuelto(aCobrar, Paga);
+  CajaR.DarVuelto(aCobrar, aPagaCon, aVuelto);
+  for I := Length(aVuelto) downto 1 do Begin
+    if aVuelto[I] > 0 then Begin
+      Memo1.Clear;
+      Memo1.Lines.Add('Debes devolver:');
+      Memo1.Lines.Add(aVuelto[I].ToString+' de ' + FloatToStr(Denominaciones[I]));
+    End
+  End;
+  
 end;
 
 procedure TForm2.btnCargarCajaClick(Sender: TObject);
@@ -78,14 +95,30 @@ begin
   Memo1.Lines.Add('Disponibilidad');
   for I := 1 to Length(Disponibilidad) do
   Begin
-     Memo1.Lines.Add(FloatToStr(Denominaciones[I]) + ' = ' + Disponibilidad[i].ToString)
+    Memo1.Lines.Add(FloatToStr(Denominaciones[I]) + ' = ' + Disponibilidad
+      [I].ToString)
   End;
   Memo1.Lines.Add('El saldo total es $' + FloatToStr(SaldoTotal));
 
 end;
 
+procedure TForm2.ComboBoxPagaConChange(Sender: TObject);
+Var
+  Paga: Real; // Cantidad total que paga
+  Denominacion: Integer; // ID del Combobox
+begin
+  Denominacion := ComboBoxPagaCon.ItemIndex;
+  // Solo para mostrar en el Edit
+  Paga := (StrToFloat(EditPagaCon.Text) + Denominaciones[Denominacion]);
+  //Cobrar := StrToFloat(EditCobrar.Text);
+  EditPagaCon.Text := FloatToStr(Paga);
+  aPagaCon[Denominacion] := aPagaCon[Denominacion] + 1;
+end;
+
 procedure TForm2.FormCreate(Sender: TObject);
 begin
+  Memo1.Clear;
+  EditPagaCon.Enabled := False;
   // Crea una caja registradora
   CajaR.Crear();
 end;

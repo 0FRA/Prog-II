@@ -1,9 +1,9 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'Form2'
+  Caption = 'Ejercicio 9 (Entregable): Caja registradora'
   ClientHeight = 352
-  ClientWidth = 728
+  ClientWidth = 740
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -68,8 +68,8 @@ object Form2: TForm2
     ParentFont = False
   end
   object Label5: TLabel
-    Left = 560
-    Top = 128
+    Left = 559
+    Top = 125
     Width = 31
     Height = 13
     Caption = 'Paga: '
@@ -80,6 +80,13 @@ object Form2: TForm2
     Width = 47
     Height = 13
     Caption = 'A Cobrar:'
+  end
+  object Label7: TLabel
+    Left = 559
+    Top = 155
+    Width = 26
+    Height = 13
+    Caption = 'Con: '
   end
   object btnCargarCaja: TButton
     Left = 63
@@ -94,7 +101,7 @@ object Form2: TForm2
     Left = 63
     Top = 125
     Width = 114
-    Height = 17
+    Height = 21
     TabOrder = 1
     Text = '0'
   end
@@ -145,8 +152,8 @@ object Form2: TForm2
     OnClick = btnMostrarTotalClick
   end
   object btnCalcularVuelto: TButton
-    Left = 592
-    Top = 165
+    Left = 591
+    Top = 205
     Width = 113
     Height = 30
     Caption = 'Calcular vuelto'
@@ -154,8 +161,8 @@ object Form2: TForm2
     OnClick = btnCalcularVueltoClick
   end
   object EditPagaCon: TEdit
-    Left = 592
-    Top = 125
+    Left = 591
+    Top = 122
     Width = 121
     Height = 21
     TabOrder = 6
@@ -168,5 +175,33 @@ object Form2: TForm2
     Height = 21
     TabOrder = 7
     Text = '0'
+  end
+  object ComboBoxPagaCon: TComboBox
+    Left = 591
+    Top = 152
+    Width = 114
+    Height = 21
+    Style = csDropDownList
+    ItemIndex = 0
+    TabOrder = 8
+    Text = 'Seleccionar valor'
+    OnChange = ComboBoxPagaConChange
+    Items.Strings = (
+      'Seleccionar valor'
+      '1 Ctvo'
+      '5 Ctvos'
+      '10 Ctvos'
+      '25 Ctvos'
+      '50 Ctvos'
+      '1 Peso'
+      '2 Pesos'
+      '5 Pesos'
+      '10 Pesos'
+      '20 Pesos'
+      '50 Pesos'
+      '100 Pesos'
+      '200 Pesos'
+      '500 Pesos'
+      '1000 Pesos')
   end
 end
