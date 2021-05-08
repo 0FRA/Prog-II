@@ -121,7 +121,7 @@ Begin
     S := k.ToString + S;
   End;
   //Sumar := S;
-   Sumar.SetSize(32);
+   Sumar.SetSize(Max);
    Sumar.SetValue(S);
 End;
 Function Binario.Restar(B2: Binario): Binario;
@@ -159,7 +159,7 @@ var
   I: Integer;
   K, S: String;
 Begin
-Operador.SetSize(32);
+Operador.SetSize(Max);
 S := '';
 for I := nSize downto Min do Begin
   case Nombre_Operador of
@@ -200,7 +200,7 @@ Var toBase: String;
     ResultConvert: Binario;
 begin
   toBase := '';
-  ResultConvert.SetSize(32);
+  ResultConvert.SetSize(Max);
   while (decimal div base) <> 0 do Begin
      toBase := (decimal mod base).toString + toBase;
      decimal := decimal div base;

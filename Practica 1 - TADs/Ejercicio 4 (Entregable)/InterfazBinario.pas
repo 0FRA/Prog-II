@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, TDA_Binario;
-
+Const
+  TamBin = 32;
 type
   TForm1 = class(TForm)
     btnSumar: TButton;
@@ -38,7 +39,6 @@ type
   public
     { Public declarations }
   end;
-
 var
   Form1: TForm1;
   B1: Binario;
@@ -50,8 +50,8 @@ procedure TForm1.btnRestarClick(Sender: TObject);
 Var B1, B2, Resultado: Binario;
 S: String;
 begin
-B1.SetSize(32);
-B2.SetSize(32);
+B1.SetSize(TamBin);
+B2.SetSize(TamBin);
 B1.SetValue(EditBinario1.Text);
 B2.SetValue(EditBinario2.Text);
 EditResultado.Text := B1.Restar(B2).BinToString;
@@ -61,8 +61,8 @@ procedure TForm1.btnSumarClick(Sender: TObject);
 Var B1, B2, Resultado: Binario;
 S: String;
 begin
-B1.SetSize(32);
-B2.SetSize(32);
+B1.SetSize(TamBin);
+B2.SetSize(TamBin);
 B1.SetValue(EditBinario1.Text);
 B2.SetValue(EditBinario2.Text);
 //Memo1.Lines.Add(B1.MostrarValor());
@@ -74,8 +74,8 @@ end;
 procedure TForm1.btnANDClick(Sender: TObject);
 Var B1, B2: Binario;
 begin
-B1.SetSize(32);
-B2.SetSize(32);
+B1.SetSize(TamBin);
+B2.SetSize(TamBin);
 B1.SetValue(EditBinario1.Text);
 B2.SetValue(EditBinario2.Text);
 EditResultado.Text := B1.Operador(B2, bAND).BinToString;
@@ -84,8 +84,8 @@ end;
 procedure TForm1.btnORClick(Sender: TObject);
 Var B1, B2: Binario;
 begin
-B1.SetSize(32);
-B2.SetSize(32);
+B1.SetSize(TamBin);
+B2.SetSize(TamBin);
 B1.SetValue(EditBinario1.Text);
 B2.SetValue(EditBinario2.Text);
 EditResultado.Text := B1.Operador(B2, bOR).BinToString;
@@ -94,8 +94,8 @@ end;
 procedure TForm1.btnXORClick(Sender: TObject);
 Var B1, B2: Binario;
 begin
-B1.SetSize(32);
-B2.SetSize(32);
+B1.SetSize(TamBin);
+B2.SetSize(TamBin);
 B1.SetValue(EditBinario1.Text);
 B2.SetValue(EditBinario2.Text);
 EditResultado.Text := B1.Operador(B2, bXOR).BinToString;
@@ -104,14 +104,14 @@ end;
 procedure TForm1.btnConvertirBinarioClick(Sender: TObject);
 Var B1: Binario;
 begin
-B1.SetSize(32);
+B1.SetSize(TamBin);
 EditResultDecimal.Text := B1.ConvertirBinario(StrToInt(EditResultBin.Text)).BinToString;
 end;
 
 procedure TForm1.btnConvertirDecimalClick(Sender: TObject);
 Var B1: Binario;
 begin
-B1.SetSize(32);
+B1.SetSize(TamBin);
 B1.SetValue(Trim(EditResultDecimal.Text));
 EditResultBin.Text := B1.ConvertirDecimal().ToString;
 end;
