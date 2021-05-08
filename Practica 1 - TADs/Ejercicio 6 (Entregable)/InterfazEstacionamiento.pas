@@ -68,7 +68,8 @@ Var
 begin
   // Car := Parking1.CrearVehiculo();
   Parking1.Ingresar(Car);
-  Memo1.Lines.Add(Parking1.MostarRegistro());
+  // Parking1.MostarRegistro()
+  // Memo1.Lines.Add();
 
 end;
 
@@ -121,8 +122,24 @@ begin
 end;
 
 procedure TForm1.btnMostrarVehiculosClick(Sender: TObject);
+Var
+  aCar: RegVehiculo;
+  vPos, TotalVeh: Integer;
+  S: String;
 begin
-  Memo1.Lines.Add(Parking1.MostarRegistro());
+  S := '';
+  TotalVeh := Parking1.TotalDeVehiculos();
+  for vPos := 1 to TotalVeh do
+  Begin
+    Parking1.MostrarRegistro(aCar, vPos);
+    Memo1.Lines.Add(#13#10'--------------------');
+    Memo1.Lines.Add('Patente:' + aCar.Patente);
+    Memo1.Lines.Add('H.Entrada:' + DateTimeToStr(aCar.Hora_E));
+    Memo1.Lines.Add('H.Salida:' + DateTimeToStr(aCar.Hora_S));
+    Memo1.Lines.Add('Importe: $' + aCar.Importe.ToString);
+    Memo1.Lines.Add('Estadia: ' + aCar.Estadia)
+  End;
+  Memo1.Lines.Add('Total de vehículos guardados: '+TotalVeh.ToString);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);

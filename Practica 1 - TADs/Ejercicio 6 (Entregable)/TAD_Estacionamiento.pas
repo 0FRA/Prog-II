@@ -11,19 +11,19 @@ Const
 
 Type
   RegVehiculo = Record
-    Patente: ShortString;
+    Patente: String[20];
     Hora_E: TDateTime;
     Hora_S: TDateTime;
     Importe: Double;
-    Estadia: ShortString;
+    Estadia: String[40];
   End;
 
   // Defino el Archivo del registro (Binario)
   ArchivoVehiculos = File Of RegVehiculo;
-
+  ArrayVeh = Array Of RegVehiculo;
   Estacionamiento = Object
   Private
-    Items: Array of RegVehiculo;
+    Items: ArrayVeh;
     nSize: LongInt;
     nPos: LongInt; // Siguiente posición disponible
     pEstCompleta: Double;
@@ -36,10 +36,10 @@ Type
     Procedure Crear(aSize: LongInt);
     Procedure Ingresar(Vehiculo: RegVehiculo);
     Procedure EstablecerTarifas(completa, media, porhora: Double);
-    // Function Sacar(Patente: String): String;
-    Function MostarRegistro(): String;
+    Procedure MostrarRegistro(Var aVeh: RegVehiculo; vPos: LongInt);
     Function RecaudadoEnFecha(Fecha: TDate): String;
     Function TotalDesdeHasta(Desde, Hasta: TDate): Double;
+    Function TotalDeVehiculos(): Integer;
   End;
 
 implementation
@@ -132,22 +132,10 @@ Begin
   Vehiculo.Importe := Tarifa;
 End;
 
-Function Estacionamiento.MostarRegistro(): String;
-Var
-  S: String;
-  i: Integer;
-begin
-  S := '';
-  for i := Min to nPos do
-  Begin
-    S := S + 'Patente: ' + Items[i].Patente + #13#10 + 'H.Entrada: ' +
-      DateTimeToStr(Items[i].Hora_E) + #13#10 + 'H.Salida: ' +
-      DateTimeToStr(Items[i].Hora_S) + #13#10 + 'Importe: $' +
-      Items[i].Importe.ToString + #13#10 + 'Estadia: ' + Items[i].Estadia +
-      #13#10#13#10;
-    MostarRegistro := S;
-  End;
-end;
+Procedure Estacionamiento.MostrarRegistro(Var aVeh: RegVehiculo; vPos: LongInt);
+Begin
+   aVeh := Items[vPos];
+End;
 
 Function Estacionamiento.RecaudadoEnFecha(Fecha: TDate): String;
 Var
@@ -230,4 +218,9 @@ Begin
   TotalDesdeHasta := Total;
   CloseFile(AV);
 End;
+Function Estacionamiento.TotalDeVehiculos(): Integer;
+Begin
+  TotalDeVehiculos := nPos;
+End;
+
 end.
