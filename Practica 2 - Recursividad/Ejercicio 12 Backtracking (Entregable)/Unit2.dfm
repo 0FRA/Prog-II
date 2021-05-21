@@ -11,6 +11,7 @@ object Form2: TForm2
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -53,14 +54,14 @@ object Form2: TForm2
     Font.Style = []
     ParentFont = False
   end
-  object Button1: TButton
+  object Calcular: TButton
     Left = 136
-    Top = 128
+    Top = 99
     Width = 75
     Height = 25
-    Caption = 'Button1'
+    Caption = 'Buscar'
     TabOrder = 0
-    OnClick = Button1Click
+    OnClick = CalcularClick
   end
   object EditConjunto: TEdit
     Left = 120
@@ -79,10 +80,10 @@ object Form2: TForm2
     Text = '7'
   end
   object Memo1: TMemo
-    Left = 232
-    Top = 94
-    Width = 185
-    Height = 89
+    Left = 224
+    Top = 99
+    Width = 193
+    Height = 84
     Lines.Strings = (
       'Memo1')
     TabOrder = 3
