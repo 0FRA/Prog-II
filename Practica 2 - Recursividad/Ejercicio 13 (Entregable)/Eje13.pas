@@ -12,7 +12,9 @@ type
     Memo1: TMemo;
     Probar: TButton;
     EditNum: TEdit;
+    Label1: TLabel;
     procedure ProbarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,10 +42,17 @@ Begin
   end;
 end;
 
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+   Memo1.Clear;
+end;
+
 procedure TForm2.ProbarClick(Sender: TObject);
 begin
-  if isdiv7(StrToInt(EditNum.Text)) MOD 7 = 0 then
-    Memo1.Lines.Add('Es divisible por 7');
+  if isdiv7(StrToInt(Trim(EditNum.Text))) MOD 7 = 0 then
+    Memo1.Lines.Add('Es divisible por 7')
+  else
+    Memo1.Lines.Add('NO es divisible por 7');
 end;
 
 end.
