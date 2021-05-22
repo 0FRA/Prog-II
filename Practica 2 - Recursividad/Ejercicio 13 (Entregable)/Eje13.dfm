@@ -1,7 +1,7 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'Form2'
+  Caption = 'Ejercicio 13: Divisible por 7 (Recursividad)'
   ClientHeight = 171
   ClientWidth = 491
   Color = clBtnFace
@@ -45,6 +45,6 @@ object Form2: TForm2
     Width = 121
     Height = 21
     TabOrder = 2
-    Text = '32291  '
+    Text = '32291'
   end
 end
